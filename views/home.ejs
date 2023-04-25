@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>To Do list</title>
+        <link rel="stylesheet" href="/css/todo.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap"
+            rel="stylesheet">
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    </head>
+    <body class="container">
+        <header class="logo">
+
+            <h2><img src="images/tasks.png" alt="logo"> Todo list</h2>
+        </header>
+        <div class="main">
+            <!-- A text box at the top to add a todo item to the list. -->
+            <form action="/add-task" method="POST">
+                <div id="div1">
+                    <fieldset>
+                        <legend>Description </legend>
+                        <input type="text" placeholder="New Task..."
+                            name="description" required>
+                    </fieldset>
+                    <!-- Add button: when a user clicks on the button, add that todo item to the list. -->
+                    <fieldset class="categorAndDue">
+                        <legend>Category</legend>
+                        <select name="category">
+                            <option value="personal">Personal</option>
+                            <option value="work">Work</option>
+                            <option value="school">School</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </fieldset>
+                    <fieldset class="categorAndDue">
+                        <legend>Due Date</legend>
+                        <input type="date" name="date">
+                    </fieldset>
+                    <button type="submit" value="submit"><i class="fas
+                            fa-plus-square"></i></button>
+
+                </div>
+
+                <div id="div2">
+                    <a id="showAll" href="/" class="pointerClass">
+                        show all tasks</a>
+
+
+                    <a id="clearCompleted" href="/clear-completed"
+                        class="pointerClass">Clear
+                        completed</a>
+
+                </div>
+
+            </form>
+
+            <div class="todo-list">
+                <!-- all tasks will be visibile here once we add functionalty to the add button -->
+                <ul>
+
+                    <% for (i of task_list){%>
+                        <li>
+                            <div id="descariptionAndDelete">
+                                <div>
+                                    <p>
+
+                                        <input type="checkbox"
+                                            action=""
+                                            method="post" name="checkBoxx"
+                                            value="<%=i._id%>"
+                                        id="<%=i._id%>"
+                                            class="pointerClass">
+
+                                            <%= i.description %>
+                                            </p>
+                                            <p class="date">
+                                                <i class="fa fa-calendar-alt
+                                                    date"></i>
+                                                <%= i.date %></p>
+                                            </div>
+                                            <div id="Delete">
+
+                                                <a href="/delete-task/?id=<%=i._id%>"
+                                                    class="pointerClass">
+                                                    <i class="fas
+                                                        fa-trash-alt"></i></a>
+                                            </div>
+                                        </div>
+
+                                        <div id="category">
+                                            <p><%= i.category %></p>
+                                            </div>
+
+
+                                        </li>
+
+
+                                        <% } %>
+
+
+                                        </ul>
+                                        <div id="bottomBar">
+
+
+                                            <div>
+                                                <a id="completed"
+                                                    href="/completed-task"
+                                                    class="pointerClass">Completed
+                                                    Tasks</a>
+                                                <a id="uncompleted"
+                                                    href="/uncompleted-task"
+                                                    class="pointerClass">Uncompleted
+                                                    Tasks<span></span></a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <script type="text/javascript"
+                                        src="/js/home.js">
+                                              
+                                                
+                                            </script>
+                                    <script
+                                        src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+                                    <script>
+                                                $(document).ready(function () {
+                                                    if (sessionStorage.getItem('checked-checkboxes') && $.parseJSON(sessionStorage.getItem('checked-checkboxes')).length !== 0)
+                                                    {
+                                                        var arrCheckedCheckboxes = $.parseJSON(sessionStorage.getItem('checked-checkboxes'));
+                                                        //Convert checked checkboxes array to comma seprated id
+                                                        $(arrCheckedCheckboxes.toString()).prop('checked', true);
+                                                    }
+                                                    $("input:checkbox").change(function () {
+                                                        var arrCheckedCheckboxes = [];
+                                                        // Get all checked checkboxes
+                                                        $.each($("input:checkbox:checked"), function () {
+                                                            arrCheckedCheckboxes.push("#" + $(this).attr('id'));
+                                                        });
+                                                        // Convert checked checkboxes array to JSON ans store it in session storage
+                                                        sessionStorage.setItem('checked-checkboxes', JSON.stringify(arrCheckedCheckboxes));
+                                                    });
+                                                });
+                                              </script>
+                                </body>
+                            </html>
